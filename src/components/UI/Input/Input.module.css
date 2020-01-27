@@ -29,3 +29,8 @@ box-sizing: border-box;
     }
     
 
+.Invalid{
+ border: 1px solid red;
+ background-color: #ffb3b3;
+    }
+
