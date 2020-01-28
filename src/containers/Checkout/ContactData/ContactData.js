@@ -4,11 +4,12 @@ import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import {connect} from 'react-redux';
+
 
 class ContactData extends Component{
 
 state = {
-
     orderForm:{
         name:{
             elementType: 'input',
@@ -93,7 +94,7 @@ for(let formElementIdentifier in this.state.orderForm ){
 }
 
     const order = {
-        ingredients: this.props.ingredients,
+        ingredients: this.props.ings,
         price: Number.parseFloat(this.props.price).toFixed(2),
         orderData: formData
     }
@@ -124,8 +125,8 @@ for(let formElementIdentifier in this.state.orderForm ){
     }
     
 
-
 inputChangedHandler = (event, inputIdentifier) => {
+
     const updatedOrderForm = {...this.state.orderForm};
     const updatedFormElement ={ ...updatedOrderForm[inputIdentifier]};
     updatedFormElement.value = event.target.value;
@@ -142,40 +143,38 @@ inputChangedHandler = (event, inputIdentifier) => {
 
 
 
-    render(){
+render(){
 
     const formElementsArray = [];
         for(let key in this.state.orderForm){
            formElementsArray.push({
             id: key,
             config:this.state.orderForm[key]
-           });
-            
+           });   
         }
 
 let form = (
 <form onSubmit ={this.orderHandler}>   
 
 {formElementsArray.map(formElement =>   
-<Input 
-key = {formElement.id}
-elementType = {formElement.config.elementType} 
- elementConfig = {formElement.config.elementConfig} 
- changed = {(event) => this.inputChangedHandler(event,formElement.id)}
- invalid = {!formElement.config.valid}
- shouldValidate = {formElement.config.validation}
- touched = {formElement.config.touched}
- value = {formElement.config.value}/>
-           )}
+    <Input 
+    key = {formElement.id}
+    elementType = {formElement.config.elementType} 
+    elementConfig = {formElement.config.elementConfig} 
+    changed = {(event) => this.inputChangedHandler(event,formElement.id)}
+    invalid = {!formElement.config.valid}
+    shouldValidate = {formElement.config.validation}
+    touched = {formElement.config.touched}
+    value = {formElement.config.value}/>
+            )}
 
-            <Button btnType = "Success" disabled = {!this.state.formIsValid}>ORDER</Button>
-            </form>
+    <Button btnType = "Success" disabled = {!this.state.formIsValid}>ORDER</Button>
+    </form>
 );
 
         if(this.state.loading){
           form = <Spinner/>  ;
         }
-
 
         return(
             <div className = {classes.ContactData}>
@@ -185,7 +184,14 @@ elementType = {formElement.config.elementType}
         );
 
         }
-
 }
 
-export default ContactData;
+
+const mapStateToProps = state =>{
+    return{
+        ings: state.ingredients,
+        price: state.totalPrice
+    };
+}
+
+export default connect(mapStateToProps)(ContactData);
