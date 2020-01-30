@@ -18,11 +18,13 @@ return(
         <div className = {attachedClasses.join(' ')}>
         <Logo height = "11%"/>
             <nav>
-                <NavigationItems/>
+                <NavigationItems />
             </nav>
         </div>
 </Auxiliary>
 );
 
-}
+};
+
+
 export default sideDrawer;
