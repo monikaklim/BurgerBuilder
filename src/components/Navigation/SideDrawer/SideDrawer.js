@@ -12,6 +12,8 @@ if (props.open){
     attachedClasses = [classes.SideDrawer, classes.Open];
 }
 
+
+
 return(
     <Auxiliary>
         <Backdrop show = {props.open} clicked={props.closed}/>
